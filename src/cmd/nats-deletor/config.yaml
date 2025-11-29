@@ -3,3 +3,7 @@ log:
   json: true
   out:
     - stdout
+
+config:
+  nats:
+    url: nats://localhost:4222

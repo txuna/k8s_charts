@@ -1,8 +1,8 @@
 package logger
 
 import (
-	"flag"
 	"fmt"
+	"main/pkg/utils"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -11,7 +11,6 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/spf13/viper"
 )
 
 type LoggerConfig struct {
@@ -20,29 +19,9 @@ type LoggerConfig struct {
 	Json  bool     `yaml:"json"`
 }
 
-func loadConfig() (*LoggerConfig, error) {
-	configPath := flag.String("c", "config.yaml", "config file path")
-	flag.Parse()
-
-	v := viper.New()
-	v.SetConfigFile(*configPath)
-	v.SetConfigType("yaml")
-
-	if err := v.ReadInConfig(); err != nil {
-		return nil, fmt.Errorf("load config: %w", err)
-	}
-
+func InitLogger(config *utils.Config) error {
 	var logCfg LoggerConfig
-	if err := v.UnmarshalKey("log", &logCfg); err != nil {
-		return nil, fmt.Errorf("unmarshal log config: %w", err)
-	}
-
-	return &logCfg, nil
-}
-
-func InitLogger() error {
-	logCfg, err := loadConfig()
-	if err != nil {
+	if err := config.Cfg.UnmarshalKey(utils.LogKey, &logCfg); err != nil {
 		return err
 	}
 
