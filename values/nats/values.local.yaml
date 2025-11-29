@@ -1,0 +1,23 @@
+config:
+  cluster:
+    enabled: true
+    replicas: 3
+
+  jetstream:
+    enabled: true
+
+    fileStore:
+      enabled: true
+      pvc:
+        enabled: true
+
+container:
+  resources:
+    requests:
+      cpu: 500m
+      memory: 500Mi
+    limits:
+      cpu: 500m
+      memory: 500Mi
+  # env:
+  #   GOMEMLIMIT: 350Mi
